@@ -1,0 +1,63 @@
+# - Try to find the cairo library
+# Once done this will define
+#
+#  Cairo_FOUND - system has cairo
+#  CAIRO_INCLUDE_DIRS - the cairo include directory
+#  CAIRO_LIBRARIES - Link these to use cairo
+#
+# Define CAIRO_MIN_VERSION for which version desired.
+#
+
+include(FindPkgConfig)
+
+if(Cairo_FIND_REQUIRED)
+   set(_pkgconfig_REQUIRED "REQUIRED")
+else(Cairo_FIND_REQUIRED)
+   set(_pkgconfig_REQUIRED "")
+endif(Cairo_FIND_REQUIRED)
+
+if(CAIRO_MIN_VERSION)
+   pkg_search_module(CAIRO ${_pkgconfig_REQUIRED} cairo>=${CAIRO_MIN_VERSION})
+else(CAIRO_MIN_VERSION)
+   pkg_search_module(CAIRO ${_pkgconfig_REQUIRED} cairo)
+endif(CAIRO_MIN_VERSION)
+
+if(NOT CAIRO_FOUND AND NOT PKG_CONFIG_FOUND)
+   message("Cairo has not been found")
+   find_path(CAIRO_INCLUDE_DIRS cairo.h)
+   find_library(CAIRO_LIBRARIES cairo)
+
+   # Report results
+   if(CAIRO_LIBRARIES AND CAIRO_INCLUDE_DIRS)
+      set(CAIRO_FOUND TRUE)
+      if(NOT Cairo_FIND_QUIETLY)
+	 message(STATUS "Found Cairo: ${CAIRO_LIBRARIES}")
+      endif(NOT Cairo_FIND_QUIETLY)
+   else(CAIRO_LIBRARIES AND CAIRO_INCLUDE_DIRS)	
+      if(Cairo_FIND_REQUIRED)
+	 message(SEND_ERROR "Could not find Cairo")
+      else(Cairo_FIND_REQUIRED)
+	 if(NOT Cairo_FIND_QUIETLY)
+	    message(STATUS "Could not find Cairo")	
+	 endif(NOT Cairo_FIND_QUIETLY)
+      endif(Cairo_FIND_REQUIRED)
+   endif(CAIRO_LIBRARIES AND CAIRO_INCLUDE_DIRS)
+else(NOT CAIRO_FOUND AND NOT PKG_CONFIG_FOUND)
+   message("Cairo found")
+ENDIF(NOT CAIRO_FOUND AND NOT PKG_CONFIG_FOUND)
+
+if(CAIRO_FOUND AND CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
+message("FreeBSD machine add Cairo link directory")
+link_directories( ${CAIRO_LIBRARY_DIRS} )
+endif(CAIRO_FOUND AND CMAKE_SYSTEM_NAME STREQUAL "FreeBSD")
+
+
+if (CAIRO_FOUND)
+   set(Cairo_FOUND TRUE)
+endif(CAIRO_FOUND)
+
+message("CAIRO_INCLUDE_DIRS: ${CAIRO_INCLUDE_DIRS}")
+message("CAIRO_INCLUDE_DIRS: ${CAIRO_INCLUDE_DIRS}")
+
+# Hide advanced variables from CMake GUIs
+mark_as_advanced(CAIRO_LIBRARIES CAIRO_INCLUDE_DIRS)
