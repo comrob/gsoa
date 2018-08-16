@@ -28,7 +28,8 @@ The implementation use visualization and algorithm support provided by the CRL (
 All the sources should be compiled into the build directory using cmake by calling ./install-cmake_build.sh which creates two binaries in build directory:
 * tgsoa-etsp
 * tgsoa-ctsp
-that have accompanied configurations files tgsoa-etsp.cfg and tgsoa-cetsp.cfg. Note all the parameters can be specified also from the command line arguments.
+
+that have accompanied configurations files tgsoa-etsp.cfg and tgsoa-cetsp.cfg. Note all the parameters can be specified also from the command line arguments. The graphical output can be disable by --gui none argument.
 
 
 
