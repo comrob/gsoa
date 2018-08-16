@@ -401,13 +401,12 @@ void CGSOA::save(void)
    }
    if (SAVE_RESULTS) {
       std::string file = getOutputIterPath(config.get<std::string>("result-path"), dir);
-      assert_io(createDirectory(dir), "Can not create file in the path'" + file + "'");
+      assert_io(createDirectory(dir), "Cannot create file in the path'" + file + "'");
 
       const int i = 0;
       std::stringstream ss;
       ss << file << "-" << std::setw(2) << std::setfill('0') << i << ".txt";
-      const char *fname = ss.str().c_str();
-      std::ofstream ofs(fname);
+      std::ofstream ofs(ss.str());
       assert_io(not ofs.fail(), "Cannot create path '" + ss.str() + "'");
       ofs << std::setprecision(14);
       foreach(const Coords &pt, finalSolution) {
@@ -520,7 +519,7 @@ void CGSOA::savePic(int step, bool detail, const std::string &dir_suffix)
       canvas->redraw();
       std::string dir;
       std::string file = getOutputIterPath(config.get<std::string>("pic-dir") + dir_suffix, dir);
-      assert_io(createDirectory(file), "Can not create file in path '" + file + "'");
+      assert_io(createDirectory(file), "Cannot create file in path '" + file + "'");
       std::stringstream ss;
       ss << file << "/" << "iter-" << std::setw(3) << std::setfill('0') << step;
       ss << "-" << std::setw(4) << std::setfill('0') << i;
@@ -533,13 +532,13 @@ void CGSOA::savePic(int step, bool detail, const std::string &dir_suffix)
 	    next = suffixes.find(',', cur);
 	    const std::string &ext = suffixes.substr(cur, next - cur);
 	    if (!ext.empty()) {
-	       assert_io(canvas->save(ss.str() + "." + ext), "Can create output canvas file '" + file + "'");
+	       assert_io(canvas->save(ss.str() + "." + ext), "Cannot create output canvas file '" + file + "'");
 	    }
 	    cur = next + 1;
 	 } while (next != std::string::npos);
       } else {
 	 ss << "." << config.get<std::string>("pic-ext");
-	 assert_io(canvas->save(ss.str()), "Can create output canvas file '" + ss.str() + "'");
+	 assert_io(canvas->save(ss.str()), "Cannot create output canvas file '" + ss.str() + "'");
       }
    }
    lastStep = step;
