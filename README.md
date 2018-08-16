@@ -2,6 +2,7 @@
 
 GSOA repository provides sources of the unsupervised learning based method for solving routing problems, e.g., variants of the Traveling Salesman Problem (TSP). The method has been introduced in the article [faigl18gsoa].
 
+...
 @article{faigl18gsoa,
   author    = {Jan Faigl},
   title     = {{GSOA:} Growing Self-Organizing Array - Unsupervised learning for
@@ -13,6 +14,7 @@ GSOA repository provides sources of the unsupervised learning based method for s
   url       = {https://doi.org/10.1016/j.neucom.2018.05.079},
   doi       = {10.1016/j.neucom.2018.05.079},
 }
+...
 
 Two implementations are currently provided:
 * gsoa-etsp  - for solving Euclidean TSP (ETSP)
