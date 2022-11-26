@@ -11,6 +11,7 @@ export CXXFLAGS=-std=c++17
 
 rm -rf build
 
+#export VERBOSE=1
 mkdir -p build
 cd build && cmake -D CMAKE_INSTALL_PREFIX=../ ../
 $cmd install

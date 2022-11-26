@@ -300,9 +300,14 @@ TAttribute getAttribute(std::string str)
 { // SPEEDUP case insensitive map
    TAttribute ret = ATTR_NUM;
    if (str.size() > 1) {
-      const char *s =
-          (str[str.size() - 1] == ':' ? str.substr(0, str.size() - 1).c_str()
-                                      : str.c_str());
+      const char *s = str.c_str();
+      if (str.back() == ':') {
+	 str.pop_back();
+	 s = str.c_str();
+      }
+      //const char *s =
+      //    (str[str.size() - 1] == ':' ? str.substr(0, str.size() - 1).c_str()
+      //                               : str.c_str());
       for (int i = 0; i < ATTR_NUM; i++) {
          if (strcasecmp(AttributeStr[i].c_str(), s) == 0) {
             ret = (TAttribute)i;

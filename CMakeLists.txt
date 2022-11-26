@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8.12)
 project(crl)
 
 # Debug / Release
@@ -11,8 +11,7 @@ else()
     set(CMAKE_BUILD_TYPE Release)
 endif()
 
-#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
-set(CMAKE_CXX_STANDARD 11) #would use gnu++11
+set(CMAKE_CXX_STANDARD 17) # force c++17 because of shared_mutex in boost-std-configuration.h of log4cxx
 
 find_program(CCACHE_FOUND ccache)
 if(CCACHE_FOUND)

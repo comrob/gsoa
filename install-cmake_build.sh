@@ -13,6 +13,7 @@ rm -rf build
 
 mkdir -p build
 
+#export VERBOSE=1
 
 cd build && cmake -D CMAKE_INSTALL_PREFIX=. ..
 $cmd -C crl install

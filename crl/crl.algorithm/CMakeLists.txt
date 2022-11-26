@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8.12)
 project(crl-algorithm)
 
 #set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
@@ -11,7 +11,7 @@ set(SOURCE_FILES
 )
 
 add_library(crl-algorithm STATIC ${SOURCE_FILES})
-#target_include_directories(crl-algorithm PUBLIC crl)
+target_include_directories(crl-algorithm PUBLIC crl)
 target_link_libraries(crl-algorithm)
 
 install(DIRECTORY src/ DESTINATION include/crl/alg FILES_MATCHING PATTERN "*.h")
