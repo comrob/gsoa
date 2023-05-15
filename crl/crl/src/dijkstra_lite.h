@@ -248,7 +248,7 @@ namespace crl {
       Nodes nodes;
    };
 
-}} // namespace crl::dijkstra
+} // namespace crl
 
 #endif
 

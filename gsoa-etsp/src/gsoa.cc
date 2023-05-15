@@ -146,7 +146,7 @@ std::string CGSOA::getVersion(void)
 /// - public method ------------------------------------------------------------
 std::string CGSOA::getRevision(void) 
 {
-   return "$Id: gsoa.cc 234 2018-08-16 20:09:49Z jf $";
+   return "$Id: gsoa.cc 241 2018-08-16 21:44:59Z jf $";
 }
 
 /// - public method ------------------------------------------------------------

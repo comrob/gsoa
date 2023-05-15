@@ -104,6 +104,8 @@ namespace crl { namespace gui {
       CCanvasBase(CGui &gui);
       ~CCanvasBase();
 
+      CGui & getGui(void) { return gui; }
+
       CRenderer *getRenderer(void);
 
       void redraw(void);

@@ -99,14 +99,6 @@ namespace crl { namespace gui { namespace manager {
    /// @brief
    /// ----------------------------------------------------------------------------
    class CDepthTree {
-    private:
-      struct DepthLess {
-         bool operator()(const TDepth &d1, const TDepth &d2) const
-         {
-            return d1 > d2;
-         }
-      };
-
     public:
       void add(CObject *object);
       void remove(const TDepth &depth, const TID &id);
@@ -115,10 +107,7 @@ namespace crl { namespace gui { namespace manager {
       int size(void) const { return depthMap.size(); }
 
     private:
-      typedef std::map<TDepth, CIDTree *, DepthLess> DepthMap;
-      typedef std::map<TDepth, ObjectList, DepthMap> DepthListMap;
-      DepthMap depthMap;
-      DepthListMap depthObjectList;
+      std::map<TDepth, CIDTree *, std::greater<TDepth>> depthMap; // descending order to draw depth object first
    };
 
    /// ----------------------------------------------------------------------------

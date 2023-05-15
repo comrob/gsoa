@@ -22,6 +22,7 @@ set(SOURCE_FILES
    src/manager.cc
    src/markers.cc
    src/mouseclick.cc
+   src/wait_gui_event.cc
    src/renderer_object.cc
    src/renderercairo.cc
    src/shape.cc

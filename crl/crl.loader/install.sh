@@ -2,7 +2,7 @@
 
 if [ `uname` = FreeBSD ]
 then
-   gmake dist
+   gmake INSTALL_SUFFIX=.fbsd dist
 else
    make dist
 fi

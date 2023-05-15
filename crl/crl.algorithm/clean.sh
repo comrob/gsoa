@@ -2,7 +2,7 @@
 
 if [ `uname` = FreeBSD ]
 then
-   gmake clean
+   gmake INSTALL_SUFFIX=.fbsd clean
 else
    make clean
 fi

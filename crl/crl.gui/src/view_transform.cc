@@ -143,8 +143,8 @@ void CViewTransform::compute(void)
    if (ar > 0.0) {                               // width / height
       const double w = viewX - 2. * viewBorderX; // w is fix
       const double h = viewY - 2. * viewBorderY; // h is fix
-      const double rx = abs(realMaxX - realMinX);
-      const double ry = abs(realMaxY - realMinY);
+      const double rx = fabs(realMaxX - realMinX);
+      const double ry = fabs(realMaxY - realMinY);
       const double w_coords = rx / w; // x coords per pixel
       const double h_coords = ry / h; // y coords per pixel
       const double a = w_coords / h_coords;

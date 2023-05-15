@@ -14,7 +14,7 @@ namespace crl {
 
 typedef std::vector<std::string> StringVector;
 
-StringVector &string_split(const std::string &str, char sep,
+inline StringVector &string_split(const std::string &str, char sep,
                            StringVector &tokens)
 {
    tokens.clear();

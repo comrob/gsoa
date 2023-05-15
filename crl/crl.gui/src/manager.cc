@@ -82,7 +82,7 @@ void CIDTree::print(std::string prefix)
 void CDepthTree::add(CObject *object)
 {
    TDepth depth = object->getDepth();
-   DepthMap::iterator t = depthMap.find(depth);
+   auto t = depthMap.find(depth);
    if (t == depthMap.end()) {
       CIDTree *tIDTree = new CIDTree();
       tIDTree->add(object);
@@ -95,7 +95,7 @@ void CDepthTree::add(CObject *object)
 /// ----------------------------------------------------------------------------
 void CDepthTree::remove(const TDepth &depth, const TID &id)
 {
-   DepthMap::iterator t = depthMap.find(depth);
+   auto t = depthMap.find(depth);
    if (t != depthMap.end()) {
       // now find object
       CIDTree *idtree(t->second);
@@ -111,7 +111,7 @@ void CDepthTree::remove(const TDepth &depth, const TID &id)
 void CDepthTree::print(void)
 {
    std::cout << "DepthTree size:" << size() << std::endl;
-   for (DepthMap::iterator it = depthMap.begin(); it != depthMap.end(); it++) {
+   for (auto it = depthMap.begin(); it != depthMap.end(); it++) {
       std::cout << "DepthTree depth:" << it->first << std::endl;
       it->second->print("\t");
    }
@@ -120,7 +120,7 @@ void CDepthTree::print(void)
 /// ----------------------------------------------------------------------------
 void CDepthTree::execute(CObjectExecutor *executor)
 {
-   for (DepthMap::iterator it = depthMap.begin(); it != depthMap.end(); it++) {
+   for (auto it = depthMap.begin(); it != depthMap.end(); it++) {
       CIDTree *tIDTree(it->second);
       for (ObjectMap::iterator obj = tIDTree->objects_begin();
            obj != tIDTree->objects_end(); obj++) {
