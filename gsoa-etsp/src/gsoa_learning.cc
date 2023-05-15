@@ -26,6 +26,7 @@ using namespace gsoa;
 /// - static method ------------------------------------------------------------
 crl::CConfig& Schema::getConfig(crl::CConfig &config) 
 {
+   config.add<double>("init-learning-gain", "Initial value of the learning gain", 10.0);
    config.add<double>("gain-decreasing-rate", "Decrasing rate, higher value means faster convergence", 1e-4);
    config.add<double>("neighborhood-factor",
          "factor to compute number of neighborhood neurons as division of number of neurons, neighborhood are considered on both sides (left, right) of winning neuron so d*2 neurons are moved ",
@@ -45,6 +46,7 @@ crl::CConfig& Schema::getConfig(crl::CConfig &config)
 
 /// - constructor --------------------------------------------------------------
 Schema::Schema(crl::CConfig& config) :
+   INIT_LEARNING_GAIN(config.get<double>("init-learning-gain")),
    GAIN_DECREASING_RATE(config.get<double>("gain-decreasing-rate")),
    NEIGHBORHOOD_FACTOR(config.get<double>("neighborhood-factor")),
    REWARD_LEARNING_RATE(config.get<bool>("enable-reward-learning-rate")),

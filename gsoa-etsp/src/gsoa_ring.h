@@ -43,6 +43,7 @@ namespace gsoa {
          const SNeuron* begin(void) const { return start; }
 
          void initialize_neurons(const Coords &pt);
+         void initialize_neurons(CoordsVector &coords);
          void deallocate_neurons(void);
 
          SNeuron* insertNeuron(SNeuron* cur, SNeuron* neuron);

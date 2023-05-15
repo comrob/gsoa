@@ -49,6 +49,16 @@ void CRing::initialize_neurons(const Coords &pt)
 }
 
 /// - public method ------------------------------------------------------------
+void CRing::initialize_neurons(CoordsVector &coords)
+{
+   initialize_neurons(coords[0]);
+   SNeuron *cur = start;
+   for (int i = 1; i < coords.size(); ++i) {
+     cur = insertNeuron(cur, new SNeuron(coords[i]));
+   }
+}
+
+/// - public method ------------------------------------------------------------
 void CRing::deallocate_neurons(void)
 {
    SNeuron *cur = start;

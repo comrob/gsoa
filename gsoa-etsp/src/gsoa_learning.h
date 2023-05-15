@@ -14,6 +14,7 @@
 namespace gsoa {
 
    struct Schema {
+      const double INIT_LEARNING_GAIN;
       const double GAIN_DECREASING_RATE;
       const double NEIGHBORHOOD_FACTOR;
       const bool REWARD_LEARNING_RATE;

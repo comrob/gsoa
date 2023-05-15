@@ -62,6 +62,8 @@ namespace gsoa {
       const bool DRAW_RING_ENABLE;
       const bool SAVE_PIC;
 
+      const double REF_SOL_LEN;
+
       crl::gui::CShape shapeTargets;
       crl::gui::CShape shapeNeurons;
       crl::gui::CShape shapePath;
@@ -73,6 +75,8 @@ namespace gsoa {
       IntVector permutation;
       TargetPtrVector targets;
       CoordsVector finalSolution;
+      CoordsVector initCoords;
+      std::string initRingBasename;
 
       CRing *ring;
    };

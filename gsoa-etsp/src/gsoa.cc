@@ -78,6 +78,10 @@ crl::CConfig& CGSOA::getConfig(crl::CConfig &config)
    // Problem specification
    config.add<std::string>("problem", "Problem file");
    config.add<std::string>("method", "Specify method in the result log", "gsoa");
+   config.add<std::string>("ring-init-coords", "Filename with coords to initialize the ring of nodes. If given ring is initialized using the coords in the file", "");
+   //
+   // Info reporting
+   config.add<double>("ref-sol-len", "Specify reference solution const for reporting relative length RLENGTH in the results log (must be > 0)", 0.0); 
    //
    // Gui properties
    config.add<std::string>("draw-shape-targets", "Shape of the target", Shape::CITY());
@@ -99,7 +103,8 @@ CGSOA::CGSOA(crl::CConfig &config) : Base(config, "TRIAL"),
    SAVE_INFO(config.get<bool>("save-info")),
    DRAW_RING_ITER(config.get<bool>("draw-ring-iter")),
    DRAW_RING_ENABLE(config.get<bool>("draw-ring")),
-   SAVE_PIC(config.get<bool>("save-pic"))
+   SAVE_PIC(config.get<bool>("save-pic")),
+   REF_SOL_LEN(config.get<double>("ref-sol-len"))
 {
    shapeTargets.setShape(config.get<std::string>("draw-shape-targets"));
    shapeNeurons.setShape(config.get<std::string>("draw-shape-neurons"));
@@ -115,17 +120,29 @@ CGSOA::CGSOA(crl::CConfig &config) : Base(config, "TRIAL"),
       std::ifstream in(fname);
       Coords pt;
       while (in >> pt) {
-         targets.push_back(new STarget(targets.size(), pt));
+	 targets.push_back(new STarget(targets.size(), pt));
       }
    }
    if (name.size() == 0) {
       std::string n = getBasename(fname);
       size_t i = n.rfind(".txt");
       if (i != std::string::npos) {
-         name = n.erase(i, 4);
+	 name = n.erase(i, 4);
       }
    }
    ring = new CRing(targets);
+
+   const std::string finit = config.get<std::string>("ring-init-coords");
+   if (not finit.empty()) {
+      assert_io(crl::checkPath(finit) && crl::isFile(finit), "Cannot open file " + finit + " to read ring-init-coords");
+      std::ifstream in(finit);
+      Coords pt;
+      while (in >> pt) {
+	 initCoords.push_back(pt);
+      }
+      INFO("Read " << initCoords.size() << " coords from \"" + finit + "\" as ring-init-coords");
+      initRingBasename = crl::getBasename(finit);
+   }
 }
 
 /// - destructor ---------------------------------------------------------------
@@ -146,7 +163,7 @@ std::string CGSOA::getVersion(void)
 /// - public method ------------------------------------------------------------
 std::string CGSOA::getRevision(void) 
 {
-   return "$Id: gsoa.cc 241 2018-08-16 21:44:59Z jf $";
+   return "$Id: gsoa.cc 3500 2023-05-15 19:54:24Z jf $";
 }
 
 /// - public method ------------------------------------------------------------
@@ -193,12 +210,16 @@ void CGSOA::iterate(int iter)
    finalSolution.clear();
    int finalBestSolutionStep;
    TargetPtrVector allTargets; 
-   ring->initialize_neurons(targets[0]->coords);
+   if (initCoords.empty()) {
+      ring->initialize_neurons(targets[0]->coords);
+   } else {
+      ring->initialize_neurons(initCoords);
+   }
    foreach(STarget *target, targets) {
       target->selectedWinner = 0;
       target->stepWinnerSelected = -1;
    }
-   schema->G = 10;
+   schema->G = schema->INIT_LEARNING_GAIN;
    schema->mi = config.get<double>("learning-rate");
    const double MAX_ERROR = config.get<double>("termination-error");
    const int MAX_STEPS = config.get<int>("termination-max-steps");
@@ -271,7 +292,12 @@ void CGSOA::iterate(int iter)
       << length // 
       << step
       << finalBestSolutionStep
-      << crl::result::endrec;
+      << (initCoords.empty() ? "NONE" : initRingBasename)
+      << schema->INIT_LEARNING_GAIN;
+   if (REF_SOL_LEN) {
+      resultLog << (length / REF_SOL_LEN);
+   }
+   resultLog << crl::result::endrec;
    DEBUG("Best solution with the length: " << bestSolutionLength << " found in: " << bestSolutionStep << " steps");
 }
 
@@ -361,6 +387,11 @@ void CGSOA::defineResultLog(void)
       resultLog << result::newcol << "LENGTH"; 
       resultLog << result::newcol << "STEPS";
       resultLog << result::newcol << "SOLUTION_STEP";
+      resultLog << result::newcol << "INIT_RING";
+      resultLog << result::newcol << "INIT_GAIN";
+      if (REF_SOL_LEN > 0) {
+	 resultLog << result::newcol << "RLENGTH";
+      }
       resultLogInitialized = true;
    }
 }
